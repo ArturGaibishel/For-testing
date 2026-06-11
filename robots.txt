@@ -1,0 +1,5 @@
+# החליפו את הדומיין בכתובת האמיתית של האתר
+User-agent: *
+Allow: /
+
+Sitemap: https://www.tigart.co.il/sitemap.xml
