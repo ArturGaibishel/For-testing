@@ -643,6 +643,16 @@
           </div>
         </div>
 
+        <label for="privacyCheck" class="flex items-start gap-3 mt-6 text-[13px] leading-[1.7] text-ash cursor-pointer">
+          <input type="checkbox" id="privacyCheck" name="privacy_consent" value="אישר/ה" required
+            class="mt-1 shrink-0 w-4 h-4 accent-ember cursor-pointer" />
+          <span>
+            אני מאשר/ת קבלת פניות שיווקיות, מידע על מבצעים והטבות בדוא״ל, SMS ו-WhatsApp,
+            והכללת הפרטים שמסרתי במאגר המידע בהתאם
+            <a href="privacy-policy.html" target="_blank" rel="noopener" class="text-ember hover:underline">למדיניות הפרטיות</a>
+          </span>
+        </label>
+
         <button type="submit" class="btn btn-ember w-full mt-7 rounded-xl py-4 text-[16px] font-bold font-display inline-flex items-center justify-center gap-2.5">
           שליחת הבקשה
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
@@ -677,6 +687,13 @@
     </div>
   </div>
   <div class="hr-glow"></div>
+  <nav aria-label="קישורים משפטיים" class="max-w-7xl mx-auto px-5 sm:px-8 pt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] text-ash">
+    <a href="privacy-policy.html" class="hover:text-white btn">מדיניות פרטיות</a>
+    <span class="text-line" aria-hidden="true">·</span>
+    <a href="terms.html" class="hover:text-white btn">תנאי שימוש</a>
+    <span class="text-line" aria-hidden="true">·</span>
+    <a href="accessibility.html" class="hover:text-white btn">הצהרת נגישות</a>
+  </nav>
   <div class="max-w-7xl mx-auto px-5 sm:px-8 py-5 pb-[72px] lg:pb-5 text-center text-[12px] text-ash/70">
     © <span id="year"></span> TIG ART AND CRAFT · כל הזכויות שמורות · ייעוץ חינם · מחירים ללא תחרות
   </div>
@@ -692,6 +709,33 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.78 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Z"/></svg>
     וואטסאפ
   </a>
+</div>
+
+<!-- ================= COOKIE CONSENT ================= -->
+<div id="cookieBanner" role="dialog" aria-label="הודעת עוגיות" aria-live="polite"
+     class="hidden fixed z-[55] inset-x-3 bottom-[84px] lg:bottom-5 lg:right-5 lg:left-auto lg:inset-x-auto lg:w-[360px]">
+  <div class="card rounded-2xl p-5 shadow-card">
+    <div class="flex items-start gap-3">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="text-ember shrink-0 mt-0.5" aria-hidden="true">
+        <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5Z"/>
+        <circle cx="8.5" cy="12.5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="12.5" cy="16.5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="14.5" cy="11" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+      <div>
+        <p class="text-[13.5px] text-steel leading-relaxed">
+          האתר עושה שימוש בעוגיות ובאחסון מקומי לשיפור החוויה ולשמירת העדפות הנגישות.
+          המשך הגלישה מהווה הסכמה ל<a href="privacy-policy.html" class="text-ember hover:underline">מדיניות הפרטיות</a>.
+        </p>
+        <div class="flex items-center gap-2 mt-4">
+          <button id="cookieAccept" type="button"
+                  class="btn btn-ember rounded-lg px-5 py-2 text-[14px] font-bold font-display">אישור</button>
+          <a href="privacy-policy.html"
+             class="btn btn-ghost rounded-lg px-4 py-2 text-[14px] font-semibold">פרטים</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 </div><!-- /atmosphere -->
@@ -744,6 +788,21 @@
 
   // current year
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // cookie consent banner — show once until accepted, store choice locally
+  (function () {
+    var KEY = 'tigart_cookie_consent';
+    var banner = document.getElementById('cookieBanner');
+    if (!banner) return;
+    if (!localStorage.getItem(KEY)) {
+      setTimeout(function () { banner.classList.remove('hidden'); }, 900);
+    }
+    var btn = document.getElementById('cookieAccept');
+    if (btn) btn.addEventListener('click', function () {
+      try { localStorage.setItem(KEY, new Date().toISOString()); } catch (e) {}
+      banner.classList.add('hidden');
+    });
+  })();
 
   // pick the hero video that matches the layout breakpoint — and SWAP it live when
   // the viewport crosses the breakpoint (so mobile always gets the portrait clip)
